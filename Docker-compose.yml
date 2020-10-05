@@ -1,0 +1,28 @@
+version: "3"
+services:
+  server-side:
+    container_name: backend-side
+    restart: always
+    build: ./backend/
+    ports:
+      - '8080:8080'
+    volumes:
+      - ./backend:/usr/src/app/
+    depends_on: 
+      - my-database
+  client-side:
+    container_name: frontend-side
+    restart: always
+    build: ./frontend/
+    volumes:
+      - ./frontend:/usr/src/app/
+    ports:
+      - '3000:3000'
+    depends_on:
+      - server-side   
+  my-database:
+    container_name: mongo
+    restart: always
+    image: mongo
+    ports:
+      - '27017:27017'  
